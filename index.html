@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacOS 9 Portfolio</title>
+    <!--<link rel="stylesheet" href="/root/static/styles.css">-->
+    <style>
+        @font-face{
+            font-family: "krungthep";
+            src: url("/root/static/media/fonts/krungthep.eot");
+            src: url("/root/static/media/fonts/krungthep.eot?#iefix")format("embedded-opentype"),
+                url("/root/static/media/fonts/krungthep.woff")format("woff"),
+                url("/root/static/media/fonts/krungthep.woff2")format("woff2"),
+                url("/root/static/media/fonts/krungthep.ttf")format("truetype"),
+                url("/root/static/media/fonts/krungthep.svg#Krungthep")format("svg");
+            font-weight:normal;
+            font-style:normal;
+            font-display:swap;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'krungthep';
+            font-size: 14px;
+            background-color: #b3b3da;
+            overflow: hidden;
+            background: url("/root/static/media/images/background.png") repeat;
+        }
+        #desktop {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        #menubar {
+            padding: 5px;
+            padding-right: 10px; 
+            font-size: 14px;
+            background:
+                linear-gradient(
+                to bottom, 
+                #e7e7e7 0%,
+                #b5b5b5 25%,
+                #424242 75%,
+                #000000 100%
+                )
+                left 
+                bottom
+                #e7e7e7    
+                no-repeat; 
+            background-size:100% 3px ;
+        }
+
+        .icon-bar {
+            position: absolute;
+            right: 20px;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px; /* Set a fixed width for the icon container */
+            margin: 10px;
+            cursor: pointer;
+        }
+        .mac-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+            height: 20px;
+            padding-top: 20px;
+            padding-bottom: 35px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .icon-img {
+            width: 50px;
+            height: 50px;
+            background-color: #CCCCCC;
+            border: 1px solid #000;
+            margin-bottom: 5px;
+        }
+        .icon-text {
+            text-align: center;
+            word-wrap: break-word;
+            max-width: 100%;
+            background-color: #bcc5d5;
+        }
+        .window {
+            position: absolute;
+            background-color: #DEDEDE;
+            border: 1px solid #000;
+            box-shadow: 1px 1px 0 #000;
+            display: none;
+            width: 70vw;
+            height: 80vh;
+            padding: 0;
+            font-family: 'Chicago', 'Helvetica', sans-serif;
+        }
+
+        .window-title {
+            height: 20px;
+            color: #000;
+            font-size: 13px;
+            text-align: center;
+            border-bottom: 1px solid #000;
+            cursor: move;
+            position: relative;
+            background-image: repeating-linear-gradient(
+                to bottom,
+                #FFFFFF,
+                #FFFFFF 2px,
+                #DEDEDE 2px,
+                #DEDEDE 4px
+            );
+            line-height: 20px;
+        }
+
+        .close-btn {
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            width: 13px;
+            height: 13px;
+            background-color: #888888;
+            border: 1px solid #000;
+            cursor: pointer;
+        }
+
+        .window-content {
+            padding: 10px;
+            font-size: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .window-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background-color: #CCCCCC;
+            border-top: 1px solid #000;
+        }
+
+        .resize-handle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            background-color: #CCCCCC;
+            border-top: 1px solid #000;
+            border-left: 1px solid #000;
+            cursor: se-resize;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100% - 30px);
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #e7e7e7;
+            min-width: 160px;
+            box-shadow: 3px 3px rgb(0,0,0);
+            z-index: 1;
+            border-style: solid;
+            border-width: 1px;
+
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 10px 10px;
+            height: 8px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #5454b3;
+            color: white;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="/root/static/script.js"></script>
+    
+    <div id="desktop">
+        <div id="menubar">
+            <div class="dropdown" id="logo-dropdown">
+                <img src="/root/static/media/images/apple.png" alt="1992 Apple Logo" style="height: 15.5px; width: 16px; padding-right: 2px; transform: translateY(10%);" id="logo-dropdown-image">
+                <div class="dropdown-content" id="logo-dropdown-content">
+                    <a href="javascript:close();">Shut Down</a>
+                    <a href="#">Reload</a>
+                </div>
+            </div>
+            <div class="dropdown" id="about-dropdown">
+                <span>About</span>
+                <div class="dropdown-content" id="about-dropdown-content">
+                    <a href="#" onclick="openWindow('portfolio');">Creator</a>
+                    <a href="#" onclick="openWindow('about-this-computer');">Computer</a>
+                </div>
+            </div>
+            <div class="dropdown" id="view-dropdown">
+                <span>View</span>
+                <div class="dropdown-content" id="view-dropdown-content">
+                    <a href="#" onclick="openWindow('portfolio');">Portfolio</a>
+                    <a href="#" onclick="closeAllWindows();">Homepage</a>
+                    <a href="#" onclick="openWindow('projects');">Projects</a>
+                </div>
+            </div>
+            <div class="dropdown" id="special-dropdown">
+                <span>Special</span>
+                <div class="dropdown-content" id="special-dropdown-content">
+                    <a href="#" onclick="openWindow('games');">Games</a>
+                </div>
+            </div>
+            <div class="dropdown" id="help-dropdown">
+                <span>Help</span>
+                <div class="dropdown-content" id="help-dropdown-content">
+                    <a href="#" onclick="openWindow('help');">About Help</a>
+                </div>
+            </div>
+            <p id="time" style="position: absolute; display: inline-block; right: 10px; top: -7px;" class="time">1:11 PM</p>
+        </div>
+        
+        <div class="icon-bar">
+            <div class="mac-icon" onclick="openWindow('Macintosh HD')">
+                <img src="/root/static/media/images/hd.png" alt="Macintosh HD" class="icon-img hd-icon">
+                <div class="icon-text">Macintosh HD</div>
+            </div>
+            <div class="icon" onclick="openWindow('portfolio')">
+                <img src="/root/static/media/images/file.png" alt="Portfolio" class="icon-img">
+                <div class="icon-text">Portfolio</div>
+            </div>
+            <div class="icon" onclick="openWindow('about-this-computer')">
+                <img src="/root/static/media/images/file.png" alt="atc" class="icon-img">
+                <div class="icon-text">About</div>
+            </div>
+            <div class="icon" onclick="openWindow('games')">
+                <img src="/root/static/media/images/folder.png" alt="atc" class="icon-img">
+                <div class="icon-text">Games</div>
+            </div>
+            <div class="icon" onclick="openWindow('projects')">
+                <img src="/root/static/media/images/folder.png" alt="atc" class="icon-img">
+                <div class="icon-text">Projects</div>
+            </div>
+        </div>
+    </div>
+    <script>onStart();</script>
+</body>
+</html>
